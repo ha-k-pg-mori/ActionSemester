@@ -9,12 +9,17 @@ public:
 	Player();
 	~Player();
 
-	void StartJump(bool& can_jump);
-	void UpdateJump(Vec2& Pos, bool& can_jump, float ground_pos);
+	void Update();
+	void Draw();
+
+	bool CanJump();
 
 protected:
-	
 	Vec2 Pos;
+
+	bool g_CanJamp[4];
+
+	float g_GroundPos;
 
 
 

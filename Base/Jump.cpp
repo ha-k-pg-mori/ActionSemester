@@ -1,13 +1,15 @@
 #include "../Src/Jump.h"
 
+static float g_Velocity = 10.0f;
+static float g_Gravity = 1.0f;
 
-void Jump::StartJump(bool& can_jump)
+void StartJump(bool& can_jump)
 {
 	g_Velocity = 20.0f;
 	can_jump = false;
 }
 
-void Jump::UpdateJump(Vec2& Pos, bool& can_jump, float ground_pos)
+void UpdateJump(Vec2& Pos, bool& can_jump, float ground_pos)
 {
     if (can_jump == true)
     {

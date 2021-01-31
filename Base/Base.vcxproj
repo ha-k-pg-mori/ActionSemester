@@ -151,10 +151,13 @@
   <ItemGroup>
     <ClCompile Include="Jump.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Src\InputManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KeyDefinition.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Src\InputManager.h" />
     <ClInclude Include="Src\Jump.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

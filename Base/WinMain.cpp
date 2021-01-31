@@ -1,4 +1,7 @@
 #include "DxLib/DxLib.h"
+#include"../Player.h"
+
+Player player;
 
 // �v���O������ WinMain ����n�܂�܂�
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -17,7 +20,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 		clsDx();
 
+		player.Update();
 
+		player.Draw();
 
 
 		ScreenFlip();
