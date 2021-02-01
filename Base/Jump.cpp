@@ -5,7 +5,7 @@ static float g_Gravity = 1.0f;
 
 void StartJump(bool& can_jump)
 {
-	g_Velocity = 20.0f;
+	g_Velocity = 10.0f;
 	can_jump = false;
 }
 
