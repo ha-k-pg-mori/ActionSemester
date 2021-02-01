@@ -1,28 +1,36 @@
 #include "DxLib/DxLib.h"
+#include"../Player.h"
 
-// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
+Player player;
+
+// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ WinMain ï¿½ï¿½ï¿½ï¿½nï¿½Ü‚ï¿½Ü‚ï¿½
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	//ƒEƒCƒ“ƒhƒEƒ‚[ƒh‚É•ÏX
+	//ï¿½Eï¿½Cï¿½ï¿½ï¿½hï¿½Eï¿½ï¿½ï¿½[ï¿½hï¿½É•ÏX
 	ChangeWindowMode(TRUE);
 	SetWindowSizeExtendRate(0.5);
 	SetGraphMode(1920, 1080, 32);
 	
-	if (DxLib_Init() == -1)  // ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—
+	if (DxLib_Init() == -1) {return -1;}
+
+	while (true)
 	{
-		return -1;   // ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
+		if (ProcessMessage() != 0) { break; }
+		
+		ClearDrawScreen();
+		clsDx();
+
+		player.Update();
+
+		player.Draw();
+
+
+		ScreenFlip();
 	}
 
-	LoadGraphScreen(0, 0, "image/‚Ï‚Á‚¿‚à‚ñ.png", TRUE);
+	WaitKey();    // ï¿½Lï¿½[ï¿½ï¿½ï¿½Í‘Ò‚ï¿½
 
-	DrawPixel(320, 240, GetColor(255, 255, 255)); // “_‚ğ‘Å‚Â
+	DxLib_End();    // ï¿½cï¿½wï¿½ï¿½ï¿½Cï¿½uï¿½ï¿½ï¿½ï¿½ï¿½gï¿½pï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	//ü‚ğˆø‚­
-	DrawLine(0, 0, 960, 540, GetColor(255, 0, 0));
-
-	WaitKey();    // ƒL[“ü—Í‘Ò‚¿
-
-	DxLib_End();    // ‚c‚wƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
-
-	return 0;    // ƒ\ƒtƒg‚ÌI—¹ 
+	return 0;    // ï¿½\ï¿½tï¿½gï¿½ÌIï¿½ï¿½ 
 }
