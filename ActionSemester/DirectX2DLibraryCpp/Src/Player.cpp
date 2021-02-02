@@ -1,8 +1,6 @@
 #include "Player.h"
-#include "Src/Jump.h"
-
-#include "../Src/InputManager.h"
-#include"../Src/Jump.h"
+#include "Jump.h"
+#include "Engine/Engine.h"
 
 
 
@@ -12,15 +10,12 @@ Player::Player()
 	Player:: Pos = Vec2(300, 200);
 	Player::g_CanJamp[1];
 	Player::g_GroundPos = 300.0f;
-
-	InputManager::CreateInstance();
-	LoadDivGraph("image/MapChip.png", 24, 4, 4, 64, 64, MapChip);
-	
+	Player::Speed = 2.0f;
 }
 
 Player::~Player()
 {
-	InputManager::DestroyInstance();
+	
 }
 
 bool Player::CanJump()
@@ -38,28 +33,20 @@ bool Player::CanJump()
 
 void Player::Update()
 {
-	
-	InputManager* pInputMng = InputManager::GetInstance();
-	if (CanJump() == true)
+	if (Engine::IsKeyboardKeyHeld(DIK_UPARROW))
 	{
-		if (pInputMng->IsOn(KeyType_Jump))
-		{
-			StartJump(g_CanJamp[0]);
-		}
-	}
-	if (pInputMng->IsOn(KeyType_Right))
-	{
-		Pos.X += 1;
-	}
-	if (pInputMng->IsOn(KeyType_Left))
-	{
-		Pos.X -= 1;
+		StartJump(g_CanJamp[0]);
 	}
 
-	for (int i = 0; i < 4; i++)
+	if(Engine::IsKeyboardKeyHeld(DIK_LEFTARROW))
 	{
-		g_CanJamp[1] = true;
+		Pos.X -= Speed;
 	}
+	if (Engine::IsKeyboardKeyHeld(DIK_RIGHTARROW))
+	{
+		Pos.Y -= Speed;
+	}
+	
 
 	UpdateJump(Pos, g_CanJamp[0], g_GroundPos);
 
@@ -67,9 +54,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-	
-	LoadGraphScreen(Pos.X, Pos.Y, "image/dango_03.png", TRUE);
-	//DrawGraph(0, 0, MapChip[], FALSE);
+	Engine::DrawTexture(Pos.X, Pos.Y, "Res/dango_03.png");
 }
 
 Player* Player::pPlayer = nullptr;

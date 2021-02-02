@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 #include "../Src/Common/Vec.h"
-#include "../Src/Definition.h"
 
 class Player
 {
@@ -26,6 +25,7 @@ public:
 
 protected:
 	Vec2 Pos;
+	int Speed;
 
 	int MapChip[24];
 

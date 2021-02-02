@@ -5,8 +5,6 @@
 #ifndef ENGINE_CONSTANT_H_
 #define ENGINE_CONSTANT_H_
 
-#include <d3dx9.h>
-
 const int SmallFontSize = 16;	//!< フォントサイズ(小)
 const int RegularFontSize = 24;	//!< フォントサイズ(中)
 const int LargeFontSize = 32;	//!< フォントサイズ(大)
