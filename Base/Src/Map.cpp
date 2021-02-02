@@ -4,7 +4,7 @@
 const int MapChipHeight = 10;
 const int MapChipWidth = 10;
 
-// ƒ}ƒbƒvƒ`ƒbƒvID”z—ñ
+// ï¿½}ï¿½bï¿½vï¿½`ï¿½bï¿½vIDï¿½zï¿½ï¿½
 int MapChipIds[MapChipHeight][MapChipWidth] =
 {
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -32,17 +32,17 @@ bool Map::OnCollisionRectAndMapChip(Vec2 obj_pos, Vec2 obj_size)
 	
 	Vec2 vertices[] =
 	{
-		// ¶ã
+		// ï¿½ï¿½ï¿½ï¿½
 		obj_pos,
-		// ‰Eã
+		// ï¿½Eï¿½ï¿½
 		Vec2(obj_pos.X + obj_size.X, obj_pos.Y),
-		// ‰E‰º
+		// ï¿½Eï¿½ï¿½
 		Vec2(obj_pos.X + obj_size.X, obj_pos.Y + obj_size.Y),
-		// ¶‰º
+		// ï¿½ï¿½ï¿½ï¿½
 		Vec2(obj_pos.X, obj_pos.Y + obj_size.Y),
 	};
 
-	// 1-2 À•W‚ğ”z—ñ‚Ì—v‘f”Ô†‚É•ÏŠ·
+	// 1-2 ï¿½ï¿½ï¿½Wï¿½ï¿½zï¿½ï¿½Ì—vï¿½fï¿½Ôï¿½ï¿½É•ÏŠï¿½
 	int vertex_mapchip_ids_w[4];
 	int vertex_mapchip_ids_h[4];
 
@@ -52,34 +52,46 @@ bool Map::OnCollisionRectAndMapChip(Vec2 obj_pos, Vec2 obj_size)
 		vertex_mapchip_ids_h[i] = vertices[i].Y / 64.0f;
 	}
 
-	// ‹éŒ`‚ÌŠe’¸“_‚ÌˆÊ’u‚É‚ ‚éƒ`ƒbƒv‚ª—LŒø‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é
+	// ï¿½ï¿½`ï¿½ÌŠeï¿½ï¿½ï¿½_ï¿½ÌˆÊ’uï¿½É‚ï¿½ï¿½ï¿½`ï¿½bï¿½vï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ğ”»’è‚·ï¿½ï¿½
 	for (int i = 0; i < 4; i++)
 	{
 		int w = vertex_mapchip_ids_w[i];
 		int h = vertex_mapchip_ids_h[i];
 
-		// ”z—ñ‚Ì”Ô†‚ª—LŒø‚È’l‚©‚Ç‚¤‚©‚ğƒ`ƒFƒbƒN
+		// ï¿½zï¿½ï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½È’lï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
 		if ((w < 0 || w >= MapChipWidth) &&
 			(h < 0 || h >= MapChipHeight))
 		{
 			continue;
 		}
 
-		// 0ˆÈŠO‚Í—LŒø”Ô† => —LŒø”Ô† == ƒ}ƒbƒvƒ`ƒbƒv‚ª”z’u‚³‚ê‚Ä‚¢‚é
+		// 0ï¿½ÈŠOï¿½Í—Lï¿½ï¿½ï¿½Ôï¿½ => ï¿½Lï¿½ï¿½ï¿½Ôï¿½ == ï¿½}ï¿½bï¿½vï¿½`ï¿½bï¿½vï¿½ï¿½ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
 		if (MapChipIds[h][w] != 0)
 		{
-			// “–‚½‚è
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			return true;
 		}
 	}
 
-	// “–‚½‚Á‚Ä‚¢‚È‚¢
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½
 	return false;
 }
 
 void Map::Update()
 {
+	Texture* tex = Engine::GetTexture("Object");
+	Vec2 size = Vec2(tex->Width, tex->Height);
 
+	// ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã¨çŸ©å½¢ã®å½“ãŸã‚Šåˆ¤å®š
+	if (OnCollisionRectAndMapChip(
+		// ç¾åœ¨å€¤ã«ç§»å‹•é‡ã‚’åŠ ç®—ã—ãŸåº§æ¨™
+		Vec2(g_ObjPos.X + vector.X, g_ObjPos.Y + vector.Y),
+		// çŸ©å½¢ã®ã‚µã‚¤ã‚º
+		size) == false)
+	{
+		g_ObjPos.X += vector.X;
+		g_ObjPos.Y += vector.Y;
+	}
 }
 
 void Map::Draw()
@@ -88,27 +100,27 @@ void Map::Draw()
 	Vec2 tex_pos = Vec2(0, 0);
 	Vec2 chip_size = Vec2(64.0f, 64.0f);
 
-	// YƒTƒCƒY(”z—ñ)
+	// Yï¿½Tï¿½Cï¿½Y(ï¿½zï¿½ï¿½)
 	for (int i = 0; i < MapChipHeight; i++)
 	{
-		// XƒTƒCƒY(”z—ñ)
+		// Xï¿½Tï¿½Cï¿½Y(ï¿½zï¿½ï¿½)
 		for (int j = 0; j < MapChipWidth; j++)
 		{
-			// 0‚¾‚Á‚½‚ç•`‰æ‚ğ‚µ‚È‚¢
+			// 0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			if (MapChipIds[j][i] == 0)
 			{
 				continue;
 			}
 
-			// ƒeƒNƒXƒ`ƒƒÀ•WŠ„‚èo‚µ
+			// ï¿½eï¿½Nï¿½Xï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 			tex_pos.X = MapChipIds[j][i] % 4 * chip_size.X;
 			tex_pos.Y = MapChipIds[j][i] / 4 * chip_size.Y;
 
-			// •`‰æÀ•WŠ„‚èo‚µ
+			// ï¿½`ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
 			pos = Vec2(i * chip_size.X, j * chip_size.X);
 
 			LoadDivGraph("image/MapChip.png", 24, tex_pos.X, tex_pos.Y, chip_size.X, chip_size.Y, MapChip);
-
+			DrawGraph(pos.X, pos.Y, MapChip[i], FALSE);
 		}
 	}
 }

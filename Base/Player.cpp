@@ -3,6 +3,7 @@
 
 #include "../Src/InputManager.h"
 #include"../Src/Jump.h"
+#include "../Src/Map.h"
 
 
 
@@ -38,7 +39,7 @@ bool Player::CanJump()
 
 void Player::Update()
 {
-	
+
 	InputManager* pInputMng = InputManager::GetInstance();
 	if (CanJump() == true)
 	{
