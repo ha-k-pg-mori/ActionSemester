@@ -1,5 +1,5 @@
 #include "Map.h"
-#include "DxLib.h"
+#include"Engine/Engine.h"
 
 const int MapChipHeight = 10;
 const int MapChipWidth = 10;
@@ -19,7 +19,8 @@ int MapChipIds[MapChipHeight][MapChipWidth] =
 
 Map::Map()
 {
-
+	vector = Vec2(0.0f, 0.0f);
+	Map::ChipSize = 64;
 }
 
 Map::~Map()
@@ -27,7 +28,32 @@ Map::~Map()
 
 }
 
-bool Map::OnCollisionRectAndMapChip(Vec2 obj_pos, Vec2 obj_size)
+void Map::GetContactParameter(EdgeType rect_edge, int chip_id_x, int chip_id_y, EdgeType& contact_edge, float& contact_position)
+{
+	Vec2 chip_pos = Vec2((float)chip_id_x * ChipSize, (float)chip_id_y * ChipSize);
+
+	switch (rect_edge)
+	{
+	case EdgeTypeLeft:
+		contact_edge = EdgeType::EdgeTypeRight;
+		contact_position = chip_pos.X + ChipSize;
+		break;
+	case EdgeTypeRight:
+		contact_edge = EdgeType::EdgeTypeLeft;
+		contact_position = chip_pos.X;
+		break;
+	case EdgeTypeTop:
+		contact_edge = EdgeType::EdgeTypeBottom;
+		contact_position = chip_pos.Y + ChipSize;
+		break;
+	case EdgeTypeBottom:
+		contact_edge = EdgeType::EdgeTypeTop;
+		contact_position = chip_pos.Y;
+		break;
+	}
+}
+
+bool Map::OnCollisionRectAndMapChip(Vec2 obj_pos, Vec2 obj_size, EdgeType& contact_edge, float& contact_edge_position)
 {
 	
 	Vec2 vertices[] =
@@ -66,32 +92,30 @@ bool Map::OnCollisionRectAndMapChip(Vec2 obj_pos, Vec2 obj_size)
 		}
 
 		// 0�ȊO�͗L���ԍ� => �L���ԍ� == �}�b�v�`�b�v���z�u����Ă���
-		if (MapChipIds[h][w] != 0)
+		if (MapChipIds[h][w] == 1)
 		{
+			GetContactParameter((EdgeType)i, h, w, contact_edge, contact_edge_position);
 			// ������
 			return true;
 		}
+
+		/*if (MapChipIds[0][1] )
+		{
+			obj_pos.X++;
+		}
+		if (MapChipIds[1][0])
+		{
+			obj_pos.Y++;
+		}*/
 	}
 
 	// �������Ă��Ȃ�
 	return false;
 }
 
-void Map::Update()
+void Map::Update(Vec2 g_Pos)
 {
-	Texture* tex = Engine::GetTexture("Object");
-	Vec2 size = Vec2(tex->Width, tex->Height);
-
-	// マップチップと矩形の当たり判定
-	if (OnCollisionRectAndMapChip(
-		// 現在値に移動量を加算した座標
-		Vec2(g_ObjPos.X + vector.X, g_ObjPos.Y + vector.Y),
-		// 矩形のサイズ
-		size) == false)
-	{
-		g_ObjPos.X += vector.X;
-		g_ObjPos.Y += vector.Y;
-	}
+	
 }
 
 void Map::Draw()
@@ -119,8 +143,15 @@ void Map::Draw()
 			// �`����W����o��
 			pos = Vec2(i * chip_size.X, j * chip_size.X);
 
-			LoadDivGraph("image/MapChip.png", 24, tex_pos.X, tex_pos.Y, chip_size.X, chip_size.Y, MapChip);
-			DrawGraph(pos.X, pos.Y, MapChip[i], FALSE);
+			Engine::DrawTextureUV(
+				pos.X,
+				pos.Y,
+				"MapChip",
+				tex_pos.X,
+				tex_pos.Y,
+				chip_size.X,
+				chip_size.Y);
+
 		}
 	}
 }
