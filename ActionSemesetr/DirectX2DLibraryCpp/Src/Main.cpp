@@ -5,10 +5,19 @@
 #include "Engine/Engine.h"
 #include "Common/Vec.h"
 #include "Player.h"
+<<<<<<< HEAD
 #include "Map.h"
 
 Player player;
 
+=======
+
+Vec2 g_Position = Vec2(300.0f, 200.0f);
+Vec2 g_Scale = Vec2(1.0f, 1.0f);
+float g_Angle = 0.0f;
+int g_PivotType = PivotType::LeftTop;
+Player player;
+>>>>>>> 5eb055a1872b1da693f014074c343a5a04bbd118
 
 // ゲーム処理
 void GameProcessing();
@@ -91,10 +100,15 @@ void GameProcessing()
 {
 	// 入力データの更新
 	Engine::Update();
+<<<<<<< HEAD
 
 	
 
 	player.Update();
+=======
+	player.Update();
+	
+>>>>>>> 5eb055a1872b1da693f014074c343a5a04bbd118
 }
 
 void DrawProcessing()
@@ -103,7 +117,15 @@ void DrawProcessing()
 	// 描画処理を実行する場合、必ず最初実行する
 	Engine::StartDrawing(0);
 
+<<<<<<< HEAD
 	player.Draw();
 	
+=======
+	
+
+
+	// 描画終了
+	// 描画処理を終了する場合、必ず最後に実行する
+>>>>>>> 5eb055a1872b1da693f014074c343a5a04bbd118
 	Engine::FinishDrawing();
 }
